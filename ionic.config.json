@@ -1,0 +1,7 @@
+{
+  "name": "toko_slepet",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
