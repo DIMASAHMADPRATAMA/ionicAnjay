@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ product?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="product">
+  <img [src]="product.image_url || 'assets/default.png'" style="width: 100%;" />
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ product.name }}</ion-card-title>
+      <ion-card-subtitle>Rp{{ product.price | number }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ product.description }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" color="primary" (click)="addToCart()">
+    + Tambah ke Keranjang
+  </ion-button>
+
+  <ion-button expand="block" color="success" (click)="goToCheckout()">
+    Checkout Sekarang
+  </ion-button>
+</ion-content>

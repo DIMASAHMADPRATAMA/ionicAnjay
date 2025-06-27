@@ -1,0 +1,41 @@
+<ion-content class="auth-page">
+  <div class="form-wrapper">
+    <div class="logo-title">Slepet Group</div>
+
+    <div class="tab-switch">
+      <button class="tab" [routerLink]="['/login']">Login</button>
+      <button class="tab active">Register</button>
+    </div>
+
+    <form (submit)="register()">
+      <ion-item lines="none" class="input-box">
+        <ion-label position="stacked">Nama Lengkap</ion-label>
+        <ion-input [(ngModel)]="name" name="name" placeholder="Masukkan nama" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-box">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input [(ngModel)]="email" name="email" type="email" placeholder="Masukkan email" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-box">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input [(ngModel)]="password" name="password" type="password" placeholder="Masukkan password" required></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" class="login-button">Daftar</ion-button>
+    </form>
+
+    <div class="divider">
+      <div class="line"></div>
+      <span>or</span>
+      <div class="line"></div>
+    </div>
+
+    <p class="terms">
+      Dengan klik daftar, Anda setuju pada
+      <a href="#">Terms of Service</a> dan
+      <a href="#">Privacy Policy</a>.
+    </p>
+  </div>
+</ion-content>

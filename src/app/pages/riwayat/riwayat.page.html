@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Riwayat Transaksi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list *ngIf="orders.length > 0; else kosong">
+    <ion-card *ngFor="let order of orders">
+      <ion-card-header>
+        <ion-card-title>Order #{{ order.id }}</ion-card-title>
+        <ion-note>Tanggal: {{ order.created_at | date:'dd/MM/yyyy' }}</ion-note>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item lines="none">
+          <ion-label>
+            <p><strong>Total:</strong> Rp {{ order.total | number }}</p>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+            <p><strong>Alamat:</strong> {{ order.address }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ng-template #kosong>
+    <ion-text color="medium">
+      <p class="ion-text-center">Belum ada transaksi.</p>
+    </ion-text>
+  </ng-template>
+</ion-content>

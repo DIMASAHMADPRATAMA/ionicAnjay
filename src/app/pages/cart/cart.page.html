@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Keranjang</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of cart">
+      <ion-checkbox
+        slot="start"
+        [(ngModel)]="item.selected"
+        (ionChange)="recalculateTotal()"
+      ></ion-checkbox>
+
+      <ion-label>
+        <h2>{{ item.product.name }}</h2>
+        <p>Qty: {{ item.quantity }}</p>
+        <p>Harga: Rp {{ item.product.price | number }}</p>
+      </ion-label>
+
+      <ion-button color="danger" (click)="remove(item.id)">Hapus</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-label><strong>Total</strong></ion-label>
+    <ion-note slot="end">Rp {{ total | number }}</ion-note>
+  </ion-item>
+
+   <ion-button expand="block" color="success" (click)="goToCheckout()">
+    Checkout Sekarang
+  </ion-button>
+</ion-content>

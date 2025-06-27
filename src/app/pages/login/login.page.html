@@ -1,0 +1,40 @@
+<ion-content class="auth-page">
+  <div class="form-wrapper">
+    <div class="logo-title">Slepet Group</div>
+
+    <div class="tab-switch">
+      <button class="tab active">Login</button>
+      <button class="tab" [routerLink]="['/register']">Register</button>
+    </div>
+
+    <form (submit)="login()">
+      <ion-item lines="none" class="input-box">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input [(ngModel)]="email" name="email" type="email" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="input-box">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
+      </ion-item>
+
+      <div class="forgot-password">
+        <a href="#">Lupa Password?</a>
+      </div>
+
+      <ion-button expand="block" type="submit" class="login-button">Login</ion-button>
+    </form>
+
+    <div class="divider">
+      <div class="line"></div>
+      <span>or</span>
+      <div class="line"></div>
+    </div>
+
+    <p class="terms">
+      Dengan klik continue, Anda setuju pada
+      <a href="#">Terms of Service</a> dan
+      <a href="#">Privacy Policy</a>.
+    </p>
+  </div>
+</ion-content>
