@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 
-// Tambahkan definisi global agar TypeScript mengenali window.snap
+// Definisikan window.snap untuk TypeScript agar tidak error
 declare global {
   interface Window {
     snap: any;
@@ -11,13 +11,12 @@ declare global {
 }
 
 @Component({
-  standalone: false,
+  standalone:false,
   selector: 'app-pembayaran',
   templateUrl: './pembayaran.page.html',
   styleUrls: ['./pembayaran.page.scss'],
 })
 export class PembayaranPage implements OnInit {
-
   subtotal: number = 150000;
   ongkir: number = 20000;
   total: number = 0;
@@ -63,13 +62,12 @@ export class PembayaranPage implements OnInit {
 
       obs.subscribe(async (res: any) => {
         if (!res.token) {
-          alert("Gagal mendapatkan token Midtrans.");
+          alert("❌ Gagal mendapatkan token Midtrans.");
           return;
         }
 
-        // Pastikan Snap.js sudah dimuat
         if (typeof window.snap === 'undefined') {
-          alert('Midtrans Snap belum dimuat. Tambahkan <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="YOUR-CLIENT-KEY"></script> di index.html');
+          alert('⚠️ Midtrans Snap belum dimuat. Pastikan script Snap ada di index.html:\n\n<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="YOUR-CLIENT-KEY"></script>');
           return;
         }
 
@@ -88,13 +86,13 @@ export class PembayaranPage implements OnInit {
             alert("❌ Pembayaran gagal.");
           },
           onClose: () => {
-            alert("❗ Anda menutup tanpa menyelesaikan pembayaran.");
+            alert("❗ Anda menutup popup sebelum menyelesaikan pembayaran.");
           }
         });
       });
     } catch (err) {
       console.error("❌ Error saat proses pembayaran:", err);
-      alert('Gagal memproses pembayaran');
+      alert('❌ Gagal memproses pembayaran');
     }
   }
 }

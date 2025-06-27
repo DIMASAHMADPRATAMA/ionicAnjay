@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  apiUrl = 'http://127.0.0.1:8000/api'; // Ganti jika backend berada di IP/URL lain
+  apiUrl = 'http://127.0.0.1:8000/api'; // Ganti sesuai URL backend Laravel
 
   constructor(private http: HttpClient, private storage: Storage) {}
 
@@ -28,7 +28,6 @@ export class ApiService {
   login(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, data);
   }
-
 
   // ✅ PRODUK
   async getProducts(): Promise<Observable<any>> {
@@ -96,12 +95,11 @@ export class ApiService {
     return this.http.get(`${this.apiUrl}/admin/stats`, headers);
   }
 
-
-// ✅ Ambil semua kategori
-async getCategories(): Promise<Observable<any>> {
-  const headers = await this.getHeaders(); // jika pakai auth
-  return this.http.get(`${this.apiUrl}/categories`, headers);
-}
+  // ✅ KATEGORI
+  async getCategories(): Promise<Observable<any>> {
+    const headers = await this.getHeaders();
+    return this.http.get(`${this.apiUrl}/categories`, headers);
+  }
 
   // ✅ PROFIL USER
   async getProfile(): Promise<Observable<any>> {
@@ -113,6 +111,4 @@ async getCategories(): Promise<Observable<any>> {
     const headers = await this.getHeaders();
     return this.http.put(`${this.apiUrl}/profile`, data, headers);
   }
-
-
 }

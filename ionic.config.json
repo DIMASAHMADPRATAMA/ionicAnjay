@@ -1,7 +1,10 @@
 {
   "name": "toko_slepet",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
+  "type": "angular",
+  "proxy": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://127.0.0.1:8000/api"
+    }
+  ]
 }
