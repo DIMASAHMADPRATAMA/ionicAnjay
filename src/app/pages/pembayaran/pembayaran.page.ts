@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ApiService } from 'src/app/services/api.service';
 
-// Definisikan window.snap untuk TypeScript agar tidak error
+// Definisikan window.snap
 declare global {
   interface Window {
     snap: any;
@@ -20,7 +20,7 @@ export class PembayaranPage implements OnInit {
   subtotal: number = 150000;
   ongkir: number = 20000;
   total: number = 0;
-  metodePembayaran: string = 'midtrans';
+  alamat: string = 'Jl. Sukajadi No. 123, Bandung';
 
   constructor(
     private router: Router,
@@ -35,7 +35,7 @@ export class PembayaranPage implements OnInit {
   async bayarSekarang() {
     const alert = await this.alertController.create({
       header: 'Konfirmasi Pembayaran',
-      message: `Bayar sebesar Rp ${this.total.toLocaleString()} dengan metode <strong>${this.metodePembayaran.toUpperCase()}</strong>?`,
+      message: `Bayar sebesar Rp ${this.total.toLocaleString()} melalui Midtrans?`,
       buttons: [
         {
           text: 'Batal',
@@ -56,8 +56,7 @@ export class PembayaranPage implements OnInit {
   async prosesPembayaran() {
     try {
       const obs = await this.api.createMidtransTransaction({
-        total: this.total,
-        metode: this.metodePembayaran
+        address: this.alamat
       });
 
       obs.subscribe(async (res: any) => {
@@ -67,32 +66,33 @@ export class PembayaranPage implements OnInit {
         }
 
         if (typeof window.snap === 'undefined') {
-          alert('⚠️ Midtrans Snap belum dimuat. Pastikan script Snap ada di index.html:\n\n<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="YOUR-CLIENT-KEY"></script>');
+          alert(`⚠️ Midtrans Snap belum dimuat.\nTambahkan di index.html:\n\n<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-LFZayA1Udh4ow5uv"></script>`);
           return;
         }
 
         window.snap.pay(res.token, {
-          onSuccess: async (result: any) => {
-            console.log("✅ Pembayaran berhasil:", result);
+          onSuccess: (result: any) => {
             alert("✅ Pembayaran berhasil!");
-            this.router.navigate(['/riwayat-transaksi']);
+            this.router.navigate(['/riwayat']);
           },
           onPending: (result: any) => {
-            console.log("⌛ Menunggu pembayaran:", result);
             alert("⌛ Menunggu pembayaran.");
           },
           onError: (result: any) => {
-            console.error("❌ Pembayaran gagal:", result);
             alert("❌ Pembayaran gagal.");
           },
           onClose: () => {
-            alert("❗ Anda menutup popup sebelum menyelesaikan pembayaran.");
+            alert("❗ Anda menutup popup pembayaran.");
           }
         });
+      }, err => {
+        console.error("❌ Error Midtrans:", err);
+        alert("❌ Gagal membuat transaksi. Pastikan kamu sudah login dan memiliki isi keranjang.");
       });
+
     } catch (err) {
-      console.error("❌ Error saat proses pembayaran:", err);
-      alert('❌ Gagal memproses pembayaran');
+      console.error("❌ Error:", err);
+      alert("❌ Terjadi kesalahan saat memproses pembayaran.");
     }
   }
 }

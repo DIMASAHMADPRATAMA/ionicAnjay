@@ -1,37 +1,48 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="light">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Keranjang</ion-title>
+    <ion-title>Keranjang Saya</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of cart">
-      <ion-checkbox
-        slot="start"
-        [(ngModel)]="item.selected"
-        (ionChange)="recalculateTotal()"
-      ></ion-checkbox>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-list lines="none">
+    <ion-card *ngFor="let item of cart" class="cart-card">
+      <ion-item lines="none">
+        <ion-checkbox
+          slot="start"
+          [(ngModel)]="item.selected"
+          (ionChange)="recalculateTotal()"
+          aria-label="Select item"
+        ></ion-checkbox>
 
-      <ion-label>
-        <h2>{{ item.product.name }}</h2>
-        <p>Qty: {{ item.quantity }}</p>
-        <p>Harga: Rp {{ item.product.price | number }}</p>
-      </ion-label>
+        <ion-thumbnail slot="start">
+          <img [src]="item.product.image" alt="gambar produk" />
+        </ion-thumbnail>
 
-      <ion-button color="danger" (click)="remove(item.id)">Hapus</ion-button>
-    </ion-item>
+        <ion-label>
+          <h2>{{ item.product.name }}</h2>
+          <p>Qty: {{ item.quantity }}</p>
+          <p>Rp {{ item.product.price | number }}</p>
+        </ion-label>
+
+        <ion-button fill="clear" color="danger" (click)="remove(item.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-card>
   </ion-list>
 
-  <ion-item>
-    <ion-label><strong>Total</strong></ion-label>
-    <ion-note slot="end">Rp {{ total | number }}</ion-note>
-  </ion-item>
+  <ion-card class="total-card">
+    <ion-card-content class="total-row">
+      <strong>Total:</strong>
+      <ion-note color="primary" slot="end">Rp {{ total | number }}</ion-note>
+    </ion-card-content>
+  </ion-card>
 
-   <ion-button expand="block" color="success" (click)="goToCheckout()">
+  <ion-button expand="block" color="dark" shape="round" (click)="goToCheckout()">
     Checkout Sekarang
   </ion-button>
 </ion-content>

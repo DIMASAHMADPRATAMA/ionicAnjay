@@ -50,19 +50,27 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons slot="start" class="footer-buttons">
-      <ion-button routerLink="/home">
-        <ion-icon name="home-outline"></ion-icon>
-        <ion-label>Home</ion-label>
-      </ion-button>
-      <ion-button routerLink="/cart">
-        <ion-icon name="cart-outline"></ion-icon>
-        <ion-label>Keranjang</ion-label>
-      </ion-button>
-      <ion-button routerLink="/pesan">
-        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-        <ion-label>Pesan</ion-label>
-      </ion-button>
-    </ion-buttons>
+    <ion-grid>
+      <ion-row class="ion-justify-content-around ion-align-items-center">
+        <ion-col size="4" class="ion-text-center">
+          <ion-button fill="clear" routerLink="/home">
+            <ion-icon name="home-outline" slot="icon-only"></ion-icon>
+            <ion-label style="display: block; font-size: 12px;">Home</ion-label>
+          </ion-button>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          <ion-button fill="clear" routerLink="/cart">
+            <ion-icon name="cart-outline" slot="icon-only"></ion-icon>
+            <ion-label style="display: block; font-size: 12px;">Keranjang</ion-label>
+          </ion-button>
+        </ion-col>
+        <ion-col size="4" class="ion-text-center">
+          <ion-button fill="clear" routerLink="/pesan">
+            <ion-icon name="chatbubble-ellipses-outline" slot="icon-only"></ion-icon>
+            <ion-label style="display: block; font-size: 12px;">Pesan</ion-label>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-footer>

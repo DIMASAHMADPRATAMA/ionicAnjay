@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <ion-list>
     <ion-item *ngFor="let item of cartItems">
       <ion-label>
@@ -23,8 +23,31 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- ✅ Form Pengguna -->
   <ion-item>
-    <ion-textarea placeholder="Masukkan alamat pengiriman..." [(ngModel)]="address"></ion-textarea>
+    <ion-input placeholder="Nama Lengkap" [(ngModel)]="name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input placeholder="Nomor HP" type="tel" [(ngModel)]="phone"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input placeholder="Kode Pos" type="number" [(ngModel)]="postalCode"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea placeholder="Alamat Lengkap" [(ngModel)]="address"></ion-textarea>
+  </ion-item>
+
+  <!-- ✅ Pilihan Kurir -->
+  <ion-item>
+    <ion-label>Kurir</ion-label>
+    <ion-select placeholder="Pilih Kurir" [(ngModel)]="courier">
+      <ion-select-option value="JNE">JNE</ion-select-option>
+      <ion-select-option value="J&T">J&T</ion-select-option>
+      <ion-select-option value="SiCepat">SiCepat</ion-select-option>
+    </ion-select>
   </ion-item>
 
   <ion-button expand="block" color="success" (click)="checkout()">Bayar Sekarang</ion-button>
