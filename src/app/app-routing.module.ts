@@ -14,6 +14,11 @@ const routes: Routes = [
   { path: 'pembayaran',loadChildren: () => import('./pages/pembayaran/pembayaran.module').then( m => m.PembayaranPageModule)},
   { path: 'akun-saya',loadChildren: () => import('./pages/akun-saya/akun-saya.module').then(m => m.AkunSayaPageModule)},
   { path: 'edit-profil',loadChildren: () => import('./pages/edit-profil/edit-profil.module').then( m => m.EditProfilPageModule)},
+  
+  {
+    path: 'pesan',
+    loadChildren: () => import('./pages/pesan/pesan.module').then( m => m.PesanPageModule)
+  },
 
 
 ];

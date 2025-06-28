@@ -9,17 +9,17 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-list lines="none">
-    <ion-card *ngFor="let item of cart" class="cart-card">
+    <ion-card *ngFor="let item of cart; trackBy: trackById" class="cart-card">
       <ion-item lines="none">
         <ion-checkbox
           slot="start"
           [(ngModel)]="item.selected"
           (ionChange)="recalculateTotal()"
-          aria-label="Select item"
+          aria-label="Pilih produk"
         ></ion-checkbox>
 
         <ion-thumbnail slot="start">
-          <img [src]="item.product.image" alt="gambar produk" />
+          <img [src]="item.product.image_url" alt="gambar produk" />
         </ion-thumbnail>
 
         <ion-label>
@@ -35,6 +35,7 @@
     </ion-card>
   </ion-list>
 
+  <!-- Total -->
   <ion-card class="total-card">
     <ion-card-content class="total-row">
       <strong>Total:</strong>
@@ -42,6 +43,7 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Tombol Checkout -->
   <ion-button expand="block" color="dark" shape="round" (click)="goToCheckout()">
     Checkout Sekarang
   </ion-button>

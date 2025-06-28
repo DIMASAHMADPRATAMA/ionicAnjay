@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  apiUrl = 'http://127.0.0.1:8000/api'; // Ganti jika perlu
+  apiUrl = 'http://127.0.0.1:8000/api'; // Ganti ke domain produksi saat rilis
 
   constructor(private http: HttpClient, private storage: Storage) {}
 
@@ -111,4 +111,18 @@ export class ApiService {
     const headers = await this.getHeaders();
     return this.http.put(`${this.apiUrl}/profile`, data, { headers });
   }
+
+  // ✅ CHAT (Pesan)
+// Ambil semua pesan antara user login dan partner (admin/user lain)
+async getMessages(partnerId: number): Promise<Observable<any>> {
+  const headers = await this.getHeaders();
+  return this.http.get(`${this.apiUrl}/messages?partner_id=${partnerId}`, { headers });
+}
+
+// Kirim pesan ke user lain (admin atau user)
+async sendMessage(data: { receiver_id: number; message: string }): Promise<Observable<any>> {
+  const headers = await this.getHeaders();
+  return this.http.post(`${this.apiUrl}/messages`, data, { headers });
+}
+
 }

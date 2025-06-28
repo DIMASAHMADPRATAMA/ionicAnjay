@@ -1,27 +1,40 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
     <ion-title>{{ product?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="product">
-  <img [src]="product.image_url || 'assets/default.png'" style="width: 100%;" />
+<ion-content *ngIf="product" class="ion-padding">
 
-  <ion-card>
+  <!-- 📸 Gambar Produk -->
+  <div class="product-image-wrapper">
+    <img [src]="product.image_url || 'assets/default.png'" />
+  </div>
+
+  <!-- 🧾 Info Produk -->
+  <ion-card class="product-info-card">
     <ion-card-header>
-      <ion-card-title>{{ product.name }}</ion-card-title>
-      <ion-card-subtitle>Rp{{ product.price | number }}</ion-card-subtitle>
+      <ion-card-title class="product-title">{{ product.name }}</ion-card-title>
+      <ion-card-subtitle class="product-price">Rp{{ product.price | number }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>{{ product.description }}</p>
+      <p class="product-description">{{ product.description }}</p>
     </ion-card-content>
   </ion-card>
 
-  <ion-button expand="block" color="primary" (click)="addToCart()">
-    + Tambah ke Keranjang
-  </ion-button>
+  <!-- 🔘 Tombol Aksi -->
+  <div class="ion-margin-top">
+    <ion-button expand="block" color="primary" shape="round" size="large" (click)="addToCart()">
+      <ion-icon slot="start" name="cart-outline"></ion-icon>
+      Tambah ke Keranjang
+    </ion-button>
 
-  <ion-button expand="block" color="success" (click)="goToCheckout()">
-    Checkout Sekarang
-  </ion-button>
+    <ion-button expand="block" color="success" shape="round" size="large" (click)="goToCheckout()">
+      <ion-icon slot="start" name="cash-outline"></ion-icon>
+      Checkout Sekarang
+    </ion-button>
+  </div>
 </ion-content>

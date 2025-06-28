@@ -13,7 +13,6 @@ export class CheckoutPage {
   cartItems: any[] = [];
   total: number = 0;
 
-  // Tambahan field user input
   name: string = '';
   phone: string = '';
   postalCode: string = '';
@@ -39,7 +38,6 @@ export class CheckoutPage {
   }
 
   async checkout() {
-    // Validasi sederhana
     if (!this.name || this.name.length < 3) {
       return this.showToast('Nama wajib diisi', 'danger');
     }
@@ -56,16 +54,11 @@ export class CheckoutPage {
       return this.showToast('Pilih kurir terlebih dahulu', 'danger');
     }
 
-    // Kirim hanya address ke backend
     const obs = await this.api.checkout({ address: this.address });
-
     obs.subscribe(async res => {
       await this.showToast('Checkout berhasil', 'success');
-
-      // Simpan order ID ke localStorage untuk pembayaran
       localStorage.setItem('lastOrderId', res.order.id);
 
-      // Simpan info tambahan ke localStorage (tidak masuk ke backend)
       const localOrderInfo = {
         name: this.name,
         phone: this.phone,

@@ -1,18 +1,23 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
   standalone: false,
   selector: 'app-cart',
   templateUrl: './cart.page.html',
-  styleUrls: ['./cart.page.scss']
+  styleUrls: ['./cart.page.scss'],
 })
 export class CartPage {
   cart: any[] = [];
   total: number = 0;
 
-  constructor(private api: ApiService, private router: Router) {}
+  constructor(
+    private api: ApiService,
+    private toastCtrl: ToastController,
+    private router: Router
+  ) {}
 
   ionViewWillEnter() {
     this.loadCart();
@@ -21,52 +26,40 @@ export class CartPage {
   async loadCart() {
     const obs = await this.api.getCart();
     obs.subscribe(res => {
-      this.cart = res.map((item: any) => ({
-        ...item,
-        selected: false // default tidak dipilih
-      }));
+      this.cart = res;
+      this.cart.forEach(item => item.selected = true);
       this.recalculateTotal();
     });
+  }
+
+  trackById(index: number, item: any) {
+    return item.id;
   }
 
   recalculateTotal() {
     this.total = this.cart
       .filter(item => item.selected)
-      .reduce((sum, item) => sum + item.product.price * item.quantity, 0);
+      .reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   }
 
   async remove(id: number) {
     const obs = await this.api.removeFromCart(id);
-    obs.subscribe(() => this.loadCart());
-  }
-
-  async checkout() {
-    const selectedItems = this.cart.filter(item => item.selected);
-
-    if (selectedItems.length === 0) {
-      alert('Silakan pilih produk yang ingin di-checkout.');
-      return;
-    }
-
-    const payload = {
-      items: selectedItems.map(item => ({
-        product_id: item.product.id,
-        quantity: item.quantity
-      })),
-      total: this.total
-    };
-
-    const obs = await this.api.checkout(payload);
-    obs.subscribe(() => {
-      alert('Checkout berhasil!');
-      this.router.navigate(['/riwayat']);
-    }, err => {
-      console.error(err);
-      alert('Checkout gagal');
+    obs.subscribe(async res => {
+      await this.showToast('Item dihapus');
+      this.loadCart();
     });
   }
 
+  async showToast(message: string, color = 'primary') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color
+    });
+    toast.present();
+  }
+
   goToCheckout() {
-  this.router.navigate(['/checkout']);
-}
+    this.router.navigate(['/checkout']);
+  }
 }
