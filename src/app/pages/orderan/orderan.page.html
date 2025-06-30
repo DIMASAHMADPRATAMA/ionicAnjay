@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/akun-saya"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Orderan Saya</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged()">
+      <ion-segment-button value="orderan">
+        <ion-label>Orderan</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="tracking">
+        <ion-label>Tracking</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="segment === 'orderan'">
+    <ion-list *ngIf="orders.length > 0; else noOrders">
+      <ion-card *ngFor="let order of orders">
+        <ion-card-header>
+          <ion-card-title>{{ order.kode_order }}</ion-card-title>
+          <ion-note>Tanggal: {{ order.created_at | date:'dd/MM/yyyy' }}</ion-note>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p><strong>Status:</strong> <span [ngClass]="{
+            'status-pending': order.status === 'pending',
+            'status-success': order.status === 'success',
+            'status-canceled': order.status === 'canceled'
+          }">{{ order.status }}</span></p>
+
+          <p><strong>Total:</strong> Rp{{ order.total | number }}</p>
+
+          <p><strong>Produk:</strong></p>
+          <ul>
+            <li *ngFor="let item of order.items">
+              {{ item.quantity }}x {{ item.product.name }} (Rp{{ item.product.price | number }})
+            </li>
+          </ul>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+    <ng-template #noOrders>
+      <ion-text color="medium">
+        <p class="ion-text-center">Anda belum memiliki pesanan.</p>
+      </ion-text>
+    </ng-template>
+  </div>
+
+  <div *ngIf="segment === 'tracking'">
+    <!-- Contoh sederhana konten Tracking, bisa dikembangkan -->
+    <ion-list *ngIf="trackingOrders.length > 0; else noTracking">
+      <ion-item *ngFor="let track of trackingOrders">
+        <ion-label>
+          <h2>{{ track.kode_order }}</h2>
+          <p>Status Pengiriman: <strong>{{ track.delivery_status || 'Belum dikirim' }}</strong></p>
+          <p>Kurir: {{ track.courier }}</p>
+          <p>Nomor Resi: {{ track.tracking_number || '-' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <ng-template #noTracking>
+      <ion-text color="medium">
+        <p class="ion-text-center">Belum ada data tracking.</p>
+      </ion-text>
+    </ng-template>
+  </div>
+</ion-content>

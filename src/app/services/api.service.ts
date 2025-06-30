@@ -62,6 +62,12 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/checkout`, data, { headers });
   }
 
+  // ✅ DIRECT CHECKOUT TANPA KERANJANG
+  async directCheckout(data: any): Promise<Observable<any>> {
+    const headers = await this.getHeaders();
+    return this.http.post(`${this.apiUrl}/checkout/direct`, data, { headers });
+  }
+
   // ✅ MIDTRANS
   async createMidtransTransaction(data: any): Promise<Observable<any>> {
     const headers = await this.getHeaders();
@@ -113,16 +119,39 @@ export class ApiService {
   }
 
   // ✅ CHAT (Pesan)
-// Ambil semua pesan antara user login dan partner (admin/user lain)
-async getMessages(partnerId: number): Promise<Observable<any>> {
-  const headers = await this.getHeaders();
-  return this.http.get(`${this.apiUrl}/messages?partner_id=${partnerId}`, { headers });
-}
+  async getMessages(partnerId: number): Promise<Observable<any>> {
+    const headers = await this.getHeaders();
+    return this.http.get(`${this.apiUrl}/messages?partner_id=${partnerId}`, { headers });
+  }
 
-// Kirim pesan ke user lain (admin atau user)
-async sendMessage(data: { receiver_id: number; message: string }): Promise<Observable<any>> {
-  const headers = await this.getHeaders();
-  return this.http.post(`${this.apiUrl}/messages`, data, { headers });
-}
+  async sendMessage(data: { receiver_id: number; message: string }): Promise<Observable<any>> {
+    const headers = await this.getHeaders();
+    return this.http.post(`${this.apiUrl}/messages`, data, { headers });
+  }
 
+  async getUnreadMessages(userId: number): Promise<Observable<any>> {
+    const headers = await this.getHeaders();
+    return this.http.get(`${this.apiUrl}/chat/check-unread/${userId}`, { headers });
+  }
+
+  async markMessagesAsRead(partnerId: number): Promise<Observable<any>> {
+    const headers = await this.getHeaders();
+    return this.http.post(`${this.apiUrl}/chat/mark-read`, { partner_id: partnerId }, { headers });
+  }
+
+  // ✅ HELPER MIDTRANS: Menyusun item dari keranjang
+  prepareMidtransItems(cartItems: any[]): any[] {
+    return cartItems.map(item => ({
+      product_id: item.product.id,
+      name: item.product.name,
+      price: item.product.price,
+      quantity: item.quantity
+    }));
+  }
+
+  // ✅ USER HELPER: Ambil user login dari storage
+  async getCurrentUser(): Promise<any> {
+    await this.storage.create();
+    return await this.storage.get('user');
+  }
 }

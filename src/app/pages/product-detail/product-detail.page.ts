@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
-  standalone:false,
+  standalone: false,
   selector: 'app-product-detail',
   templateUrl: './product-detail.page.html'
 })
@@ -13,7 +14,8 @@ export class ProductDetailPage {
   constructor(
     private route: ActivatedRoute,
     private api: ApiService,
-    private router: Router
+    private router: Router,
+    private alertCtrl: AlertController
   ) {}
 
   ionViewWillEnter() {
@@ -25,16 +27,42 @@ export class ProductDetailPage {
     });
   }
 
-  addToCart() {
+  async addToCart() {
+    if (this.product.stock <= 0) {
+      const alert = await this.alertCtrl.create({
+        header: 'Stok Habis',
+        message: 'Maaf, stok produk ini sudah habis.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      return;
+    }
+
     this.api.addToCart({ product_id: this.product.id, quantity: 1 }).then(obs => {
       obs.subscribe(() => {
-        this.router.navigate(['/cart']); // langsung ke checkout
+        this.product.stock--; // update tampilan lokal
+        this.router.navigate(['/cart']);
       });
     });
   }
 
-  goToCheckout() {
-  this.router.navigate(['/checkout']);
-}
+  async goToCheckout() {
+    if (this.product.stock <= 0) {
+      const alert = await this.alertCtrl.create({
+        header: 'Stok Habis',
+        message: 'Maaf, stok produk ini sudah habis.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+      return;
+    }
 
+    // Lanjutkan ke halaman checkout langsung dengan produk & jumlah
+    this.router.navigate(['/checkout'], {
+      state: {
+        product: this.product,
+        quantity: 1
+      }
+    });
+  }
 }

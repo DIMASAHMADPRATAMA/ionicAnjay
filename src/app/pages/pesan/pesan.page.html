@@ -1,14 +1,21 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
     <ion-title>Pesan</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="chat-container">
-    <div *ngFor="let msg of messages" [ngClass]="{ 'me': msg.sender_id === userId, 'other': msg.sender_id !== userId }" class="bubble">
+    <div
+      *ngFor="let msg of messages"
+      [ngClass]="msg.sender_id === userId ? 'me' : 'other'"
+      class="bubble"
+    >
       {{ msg.message }}
-      <div class="timestamp">{{ msg.created_at | date:'shortTime' }}</div>
+      <div class="timestamp">{{ msg.created_at | date: 'HH:mm dd MMM yyyy' }}</div>
     </div>
     <div #scrollBottom></div>
   </div>

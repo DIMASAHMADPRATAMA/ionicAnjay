@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"home></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>Akun Saya</ion-title>
   </ion-toolbar>
@@ -23,6 +23,11 @@
       <ion-button expand="block" routerLink="/riwayat">
         <ion-icon slot="start" name="list-outline"></ion-icon>
         Riwayat Belanja
+      </ion-button>
+
+      <ion-button expand="block" routerLink="/orderan">
+        <ion-icon slot="start" name="receipt-outline"></ion-icon>
+        Orderan Saya
       </ion-button>
 
       <ion-button expand="block" color="danger" (click)="logout()">

@@ -19,6 +19,8 @@
     <ion-card-header>
       <ion-card-title class="product-title">{{ product.name }}</ion-card-title>
       <ion-card-subtitle class="product-price">Rp{{ product.price | number }}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="product.stock > 0">Stok: {{ product.stock }}</ion-card-subtitle>
+      <ion-card-subtitle *ngIf="product.stock === 0" color="danger">❌ Stok Habis</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <p class="product-description">{{ product.description }}</p>

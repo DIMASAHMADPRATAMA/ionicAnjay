@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
-  standalone:false,
+  standalone: false,
   selector: 'app-akun-saya',
   templateUrl: './akun-saya.page.html',
 })

@@ -13,7 +13,7 @@
       <ion-card-header>
         <ion-card-title>Pesanan - {{ order.courier }}</ion-card-title>
         <ion-note>
-          Tanggal: {{ order.createdAt | date:'dd/MM/yyyy' }}
+          Tanggal: {{ order.created_at | date:'dd/MM/yyyy' }}
         </ion-note>
       </ion-card-header>
 
@@ -22,7 +22,7 @@
           <ion-label>
             <p><strong>Nama:</strong> {{ order.name }}</p>
             <p><strong>HP:</strong> {{ order.phone }}</p>
-            <p><strong>Kode Pos:</strong> {{ order.postalCode }}</p>
+            <p><strong>Kode Pos:</strong> {{ order.postal_code }}</p>
             <p><strong>Alamat:</strong> {{ order.address }}</p>
             <p><strong>Total:</strong> Rp{{ order.total | number }}</p>
           </ion-label>
@@ -32,7 +32,7 @@
           <ion-label>
             <strong>Produk:</strong>
             <ul>
-              <li *ngFor="let item of order.cartItems">
+              <li *ngFor="let item of order.items">
                 {{ item.quantity }}x {{ item.product.name }} (Rp{{ item.product.price | number }})
               </li>
             </ul>

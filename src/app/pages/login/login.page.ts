@@ -26,9 +26,18 @@ export class LoginPage {
   }
 
   login() {
-    this.api.login({ email: this.email, password: this.password }).subscribe({
+    const credentials = {
+      email: this.email,
+      password: this.password
+    };
+
+    this.api.login(credentials).subscribe({
       next: async res => {
+        // ✅ Simpan token dan user ke storage
         await this.storage.set('token', res.token);
+        await this.storage.set('user', res.user); // 👈 Tambahan penting!
+
+        // ✅ Arahkan ke halaman home
         this.router.navigate(['/home']);
       },
       error: err => {

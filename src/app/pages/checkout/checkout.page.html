@@ -1,52 +1,47 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/cart"></ion-back-button>
+      <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     <ion-title>Checkout</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-list>
-    <ion-item *ngFor="let item of cartItems">
-      <ion-label>
-        <h3>{{ item.product.name }}</h3>
-        <p>Qty: {{ item.quantity }} x Rp{{ item.product.price | number }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-
-  <ion-card>
+<ion-content class="ion-padding" *ngIf="cartItems.length">
+  <ion-card *ngFor="let item of cartItems">
+    <img [src]="item.product.image_url || 'assets/default.png'" />
+    <ion-card-header>
+      <ion-card-title>{{ item.product.name }}</ion-card-title>
+      <ion-card-subtitle>Rp{{ item.product.price | number }}</ion-card-subtitle>
+    </ion-card-header>
     <ion-card-content>
-      <h2>Total: Rp{{ total | number }}</h2>
+      Jumlah: {{ item.quantity }}
     </ion-card-content>
   </ion-card>
 
-  <!-- ✅ Form Pengguna -->
+  <!-- Formulir input checkout -->
   <ion-item>
-    <ion-input placeholder="Nama Lengkap" [(ngModel)]="name"></ion-input>
+    <ion-label position="stacked">Nama</ion-label>
+    <ion-input [(ngModel)]="name" required></ion-input>
   </ion-item>
-
   <ion-item>
-    <ion-input placeholder="Nomor HP" type="tel" [(ngModel)]="phone"></ion-input>
+    <ion-label position="stacked">No HP</ion-label>
+    <ion-input [(ngModel)]="phone" required></ion-input>
   </ion-item>
-
   <ion-item>
-    <ion-input placeholder="Kode Pos" type="number" [(ngModel)]="postalCode"></ion-input>
+    <ion-label position="stacked">Alamat</ion-label>
+    <ion-textarea [(ngModel)]="address" required></ion-textarea>
   </ion-item>
-
   <ion-item>
-    <ion-textarea placeholder="Alamat Lengkap" [(ngModel)]="address"></ion-textarea>
+    <ion-label position="stacked">Kode Pos</ion-label>
+    <ion-input [(ngModel)]="postalCode" required></ion-input>
   </ion-item>
-
-  <!-- ✅ Pilihan Kurir -->
   <ion-item>
-    <ion-label>Kurir</ion-label>
-    <ion-select placeholder="Pilih Kurir" [(ngModel)]="courier">
-      <ion-select-option value="JNE">JNE</ion-select-option>
-      <ion-select-option value="J&T">J&T</ion-select-option>
-      <ion-select-option value="SiCepat">SiCepat</ion-select-option>
+    <ion-label position="stacked">Kurir</ion-label>
+    <ion-select [(ngModel)]="courier" interface="popover">
+      <ion-select-option value="jne">JNE</ion-select-option>
+      <ion-select-option value="jnt">J&T</ion-select-option>
+      <ion-select-option value="sicepat">SiCepat</ion-select-option>
     </ion-select>
   </ion-item>
 

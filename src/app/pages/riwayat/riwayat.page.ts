@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   standalone: false,
@@ -7,8 +8,11 @@ import { ApiService } from 'src/app/services/api.service';
   templateUrl: './riwayat.page.html',
   styleUrls: ['./riwayat.page.scss']
 })
-export class RiwayatPage {
+export class RiwayatPage implements OnDestroy {
   orders: any[] = [];
+  loading = false;
+  errorMessage = '';
+  private subscription?: Subscription;
 
   constructor(private api: ApiService) {}
 
@@ -16,16 +20,35 @@ export class RiwayatPage {
     this.loadRiwayat();
   }
 
+  ionViewWillLeave() {
+    // Hentikan subscribe agar tidak memory leak
+    this.subscription?.unsubscribe();
+  }
+
   async loadRiwayat() {
+    this.loading = true;
+    this.errorMessage = '';
     try {
-      const obs = await this.api.getUserOrders(); // Mengambil observable
-      obs.subscribe(res => {
-        this.orders = res;
-      }, err => {
-        console.error('Gagal mengambil riwayat:', err);
+      const obs = await this.api.getUserOrders();
+      this.subscription = obs.subscribe({
+        next: (res) => {
+          this.orders = res;
+          this.loading = false;
+        },
+        error: (err) => {
+          this.errorMessage = 'Gagal mengambil riwayat transaksi.';
+          console.error('Gagal mengambil riwayat:', err);
+          this.loading = false;
+        }
       });
     } catch (error) {
+      this.errorMessage = 'Kesalahan saat mengambil riwayat transaksi.';
       console.error('Kesalahan saat mengambil riwayat:', error);
+      this.loading = false;
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

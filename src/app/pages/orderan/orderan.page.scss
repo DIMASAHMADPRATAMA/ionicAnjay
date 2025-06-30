@@ -1,0 +1,154 @@
+/* orderan.page.scss */
+
+ion-content {
+  background-color: #f9fafc;
+  font-family: 'Poppins', sans-serif;
+}
+
+ion-toolbar ion-segment {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 8px;
+  background-color: transparent;
+
+  ion-segment-button {
+    margin: 0 12px; // Memberi jarak kanan dan kiri
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: capitalize;
+    transition: all 0.3s ease;
+
+    &.segment-button-checked {
+      background-color: #e0e7ff;
+      color: #1e40af;
+    }
+
+    ion-label {
+      font-size: 15px;
+    }
+  }
+}
+
+
+/* Card styling */
+ion-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 15px rgba(56, 128, 255, 0.1);
+  margin-bottom: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 25px rgba(56, 128, 255, 0.25);
+  }
+}
+
+ion-card-header {
+  background: linear-gradient(135deg, #6b9cff, #2e6ef7);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  color: white;
+
+  ion-card-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+
+  ion-note {
+    font-style: italic;
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+}
+
+ion-card-content {
+  p {
+    margin: 6px 0;
+    font-size: 1rem;
+    color: #334155;
+  }
+
+  ul {
+    padding-left: 18px;
+    margin-top: 6px;
+
+    li {
+      margin-bottom: 4px;
+      color: #475569;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+/* Status labels */
+.status-pending {
+  color: #eab308; /* Amber */
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.status-success {
+  color: #16a34a; /* Green */
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.status-canceled {
+  color: #dc2626; /* Red */
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+/* Tracking list styling */
+ion-item {
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 12px rgba(56, 128, 255, 0.08);
+  --ion-item-background: transparent;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 24px rgba(56, 128, 255, 0.2);
+  }
+
+  ion-label {
+    h2 {
+      font-weight: 700;
+      color: #1e40af;
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: #475569;
+      margin: 2px 0;
+
+      strong {
+        color: #2563eb;
+      }
+    }
+  }
+}
+
+/* Empty state */
+ion-text p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 40px;
+  color: #000000;
+  text-align: center;
+}
+
+/* Scrollbar styling for better UX */
+ion-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+ion-content::-webkit-scrollbar-thumb {
+  background-color: #3b82f6;
+  border-radius: 10px;
+}

@@ -2,30 +2,60 @@
   padding: 16px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .bubble {
+  position: relative;
   padding: 10px 14px;
   margin: 6px 0;
-  border-radius: 12px;
-  max-width: 70%;
+  border-radius: 16px;
+  max-width: 75%;
   word-break: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .me {
+  right: -6px;
   background-color: #007bff;
   color: white;
   align-self: flex-end;
+  border-bottom-right-radius: 0;
+}
+
+.me::after {
+  content: "";
+  position: absolute;
+  right: 100px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 6px solid #007bff;
+  border-left: 6px solid transparent;
 }
 
 .other {
   background-color: #e9ecef;
   color: black;
   align-self: flex-start;
+  border-bottom-left-radius: 0;
+}
+
+.other::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 6px solid #e9ecef;
+  border-right: 6px solid transparent;
 }
 
 .timestamp {
-  font-size: 10px;
+  font-size: 11px;
   text-align: right;
   opacity: 0.6;
   margin-top: 4px;

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 
@@ -8,11 +8,12 @@ import { Storage } from '@ionic/storage-angular';
   templateUrl: './pesan.page.html',
   styleUrls: ['./pesan.page.scss'],
 })
-export class PesanPage {
+export class PesanPage implements OnDestroy {
   messages: any[] = [];
   message: string = '';
   userId: number = 0;
-  adminId: number = 1; // bisa diganti dinamis jika perlu
+  adminId: number = 1;
+  pollingInterval: any;
 
   @ViewChild('scrollBottom') scrollBottom!: ElementRef;
 
@@ -21,20 +22,45 @@ export class PesanPage {
   async ionViewWillEnter() {
     await this.storage.create();
     const user = await this.storage.get('user');
-    this.userId = user?.id;
 
-    this.loadMessages();
+    if (user && user.id) {
+      this.userId = user.id;
+      this.loadMessages();
+
+      // 🔁 Mulai polling setiap 5 detik
+      this.pollingInterval = setInterval(() => {
+        this.loadMessages(false); // `false` agar tidak scroll setiap kali polling
+      }, 5000);
+    } else {
+      alert('Gagal mendapatkan ID pengguna.');
+    }
   }
 
-loadMessages() {
-  this.api.getMessages(this.adminId).then(obs => {
-    obs.subscribe(res => {
-      this.messages = res;
-      setTimeout(() => this.scrollToBottom(), 100);
+  ionViewWillLeave() {
+    // ❌ Stop polling saat keluar dari halaman
+    clearInterval(this.pollingInterval);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.pollingInterval);
+  }
+
+  loadMessages(scroll: boolean = true) {
+    this.api.getMessages(this.adminId).then(obs => {
+      obs.subscribe(res => {
+        const previousLength = this.messages.length;
+        this.messages = res;
+
+        // Scroll hanya jika jumlah pesan berubah atau scroll = true
+        if (scroll || previousLength !== this.messages.length) {
+          setTimeout(() => this.scrollToBottom(), 100);
+        }
+
+        this.api.markMessagesAsRead(this.adminId).then(obs => {
+          obs.subscribe();
+        });
+      });
     });
-  });
-
-
   }
 
   sendMessage() {

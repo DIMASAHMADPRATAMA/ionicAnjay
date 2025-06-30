@@ -19,14 +19,32 @@ export class CheckoutPage {
   address: string = '';
   courier: string = '';
 
+  product: any = null;
+  quantity: number = 1;
+
   constructor(
     private api: ApiService,
     private toastCtrl: ToastController,
     private router: Router
-  ) {}
+  ) {
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras?.state?.['product']) {
+      this.product = nav.extras.state['product'];
+      this.quantity = nav.extras.state['quantity'] || 1;
+
+      this.cartItems = [{
+        product: this.product,
+        quantity: this.quantity
+      }];
+
+      this.total = this.product.price * this.quantity;
+    }
+  }
 
   ionViewWillEnter() {
-    this.loadCart();
+    if (!this.product) {
+      this.loadCart();
+    }
   }
 
   async loadCart() {
@@ -54,29 +72,53 @@ export class CheckoutPage {
       return this.showToast('Pilih kurir terlebih dahulu', 'danger');
     }
 
-    const obs = await this.api.checkout({ address: this.address });
-    obs.subscribe(async res => {
-      await this.showToast('Checkout berhasil', 'success');
-      localStorage.setItem('lastOrderId', res.order.id);
+    const payload = {
+      name: this.name,
+      phone: this.phone,
+      postal_code: this.postalCode,
+      courier: this.courier,
+      address: this.address,
+    };
 
-      const localOrderInfo = {
-        name: this.name,
-        phone: this.phone,
-        postalCode: this.postalCode,
-        courier: this.courier,
-        address: this.address,
-        cartItems: this.cartItems,
-        total: this.total,
-        createdAt: new Date()
+    if (this.product) {
+      const directPayload = {
+        ...payload,
+        product_id: this.product.id,
+        quantity: this.quantity
       };
-      const history = JSON.parse(localStorage.getItem('order_history') || '[]');
-      history.push(localOrderInfo);
-      localStorage.setItem('order_history', JSON.stringify(history));
+      const obs = await this.api.directCheckout(directPayload);
+      obs.subscribe(
+        async res => await this.afterSuccess(res.order),
+        async err => await this.showToast('Checkout gagal (langsung)', 'danger')
+      );
+    } else {
+      const obs = await this.api.checkout(payload);
+      obs.subscribe(
+        async res => await this.afterSuccess(res.order),
+        async err => await this.showToast('Checkout gagal (keranjang)', 'danger')
+      );
+    }
+  }
 
-      this.router.navigate(['/pembayaran']);
-    }, async err => {
-      await this.showToast('Checkout gagal', 'danger');
-    });
+  async afterSuccess(order: any) {
+    await this.showToast('Checkout berhasil', 'success');
+    localStorage.setItem('lastOrderId', order.id);
+
+    const localOrderInfo = {
+      name: this.name,
+      phone: this.phone,
+      postalCode: this.postalCode,
+      courier: this.courier,
+      address: this.address,
+      cartItems: this.cartItems,
+      total: this.total,
+      createdAt: new Date()
+    };
+    const history = JSON.parse(localStorage.getItem('order_history') || '[]');
+    history.push(localOrderInfo);
+    localStorage.setItem('order_history', JSON.stringify(history));
+
+    this.router.navigate(['/pembayaran']);
   }
 
   async showToast(message: string, color: string = 'primary') {
