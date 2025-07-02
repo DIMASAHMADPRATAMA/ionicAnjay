@@ -11,7 +11,15 @@
   <ion-list *ngIf="orders.length > 0; else kosong">
     <ion-card *ngFor="let order of orders">
       <ion-card-header>
-        <ion-card-title>Pesanan - {{ order.courier }}</ion-card-title>
+        <!-- ✅ Kode Order -->
+        <ion-note color="primary">
+          <strong>Kode Order:</strong> {{ order.kode_order }}
+        </ion-note>
+
+        <ion-card-title>
+          Pesanan - {{ order.courier }}
+        </ion-card-title>
+
         <ion-note>
           Tanggal: {{ order.created_at | date:'dd/MM/yyyy' }}
         </ion-note>
@@ -25,6 +33,36 @@
             <p><strong>Kode Pos:</strong> {{ order.postal_code }}</p>
             <p><strong>Alamat:</strong> {{ order.address }}</p>
             <p><strong>Total:</strong> Rp{{ order.total | number }}</p>
+
+           <!-- ✅ Status Pembayaran -->
+<p>
+  <strong>Status Pembayaran:</strong>
+  <ion-badge
+    [color]="order.payment_status === 'paid' ? 'success' : 'warning'">
+    {{ order.payment_status === 'paid' ? 'Sudah Dibayar' : 'Belum Dibayar' }}
+  </ion-badge>
+</p>
+
+<!-- ✅ Status Pengiriman -->
+<p>
+  <strong>Status Pengiriman:</strong>
+  <ion-badge
+    [color]="
+      order.shipping_status === 'shipped'
+        ? 'success'
+        : order.shipping_status === 'processing'
+        ? 'warning'
+        : 'medium'
+    ">
+    {{
+      order.shipping_status === 'shipped'
+        ? 'Sudah Dikirim'
+        : order.shipping_status === 'processing'
+        ? 'Sedang Diproses'
+        : 'Belum Diproses'
+    }}
+  </ion-badge>
+</p>
           </ion-label>
         </ion-item>
 

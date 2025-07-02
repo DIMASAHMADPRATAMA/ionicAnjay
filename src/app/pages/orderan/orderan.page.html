@@ -28,11 +28,35 @@
         </ion-card-header>
 
         <ion-card-content>
-          <p><strong>Status:</strong> <span [ngClass]="{
-            'status-pending': order.status === 'pending',
-            'status-success': order.status === 'success',
-            'status-canceled': order.status === 'canceled'
-          }">{{ order.status }}</span></p>
+          <!-- ✅ Status Pembayaran -->
+          <!-- ✅ Status Pembayaran -->
+  <p>
+    <strong>Status Pembayaran:</strong>
+    <ion-badge [color]="order.payment_status === 'paid' ? 'success' : 'warning'">
+      {{ order.payment_status === 'paid' ? 'Sudah Dibayar' : 'Belum Dibayar' }}
+    </ion-badge>
+  </p>
+
+  <!-- ✅ Status Pengiriman -->
+  <p>
+    <strong>Status Pengiriman:</strong>
+    <ion-badge
+      [color]="
+        order.shipping_status === 'shipped'
+          ? 'success'
+          : order.shipping_status === 'processing'
+          ? 'warning'
+          : 'medium'
+      ">
+      {{
+        order.shipping_status === 'shipped'
+          ? 'Sudah Dikirim'
+          : order.shipping_status === 'processing'
+          ? 'Sedang Diproses'
+          : 'Belum Diproses'
+      }}
+    </ion-badge>
+  </p>
 
           <p><strong>Total:</strong> Rp{{ order.total | number }}</p>
 
@@ -54,12 +78,11 @@
   </div>
 
   <div *ngIf="segment === 'tracking'">
-    <!-- Contoh sederhana konten Tracking, bisa dikembangkan -->
     <ion-list *ngIf="trackingOrders.length > 0; else noTracking">
       <ion-item *ngFor="let track of trackingOrders">
         <ion-label>
           <h2>{{ track.kode_order }}</h2>
-          <p>Status Pengiriman: <strong>{{ track.delivery_status || 'Belum dikirim' }}</strong></p>
+          <p>Status Pengiriman: <strong>{{ track.shipping_status || 'Belum dikirim' }}</strong></p>
           <p>Kurir: {{ track.courier }}</p>
           <p>Nomor Resi: {{ track.tracking_number || '-' }}</p>
         </ion-label>
