@@ -1,41 +1,58 @@
-<ion-content class="auth-page">
-  <div class="form-wrapper">
-    <div class="logo-title">SADAR SHOP</div>
+<ion-content class="ion-padding register-content">
+  <div class="register-card">
 
-    <div class="tab-switch">
-      <button class="tab" [routerLink]="['/login']">Login</button>
-      <button class="tab active">Register</button>
+    <div class="logo-area">
+      <ion-icon name="person-add-outline"></ion-icon>
+      <h2>Daftar Akun</h2>
     </div>
 
-    <form (submit)="register()">
-      <ion-item lines="none" class="input-box">
-        <ion-label position="stacked">Nama Lengkap</ion-label>
-        <ion-input [(ngModel)]="name" name="name" placeholder="Masukkan nama" required></ion-input>
+    <form (submit)="register()" class="register-form">
+
+      <!-- Nama -->
+      <ion-item lines="none" class="input-field">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input
+          [(ngModel)]="name"
+          name="name"
+          placeholder="Nama Lengkap"
+          required>
+        </ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="input-box">
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input [(ngModel)]="email" name="email" type="email" placeholder="Masukkan email" required></ion-input>
+      <!-- Email -->
+      <ion-item lines="none" class="input-field">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          required>
+        </ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="input-box">
-        <ion-label position="stacked">Password</ion-label>
-        <ion-input [(ngModel)]="password" name="password" type="password" placeholder="Masukkan password" required></ion-input>
+      <!-- Password -->
+      <ion-item lines="none" class="input-field">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          required>
+        </ion-input>
       </ion-item>
 
-      <ion-button expand="block" type="submit" class="login-button">Daftar</ion-button>
+      <ion-button expand="block" type="submit" class="register-button">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Daftar
+      </ion-button>
     </form>
 
-    <div class="divider">
-      <div class="line"></div>
-      <span>or</span>
-      <div class="line"></div>
+    <div class="footer-text">
+      Sudah punya akun?
+      <a [routerLink]="['/login']">Masuk di sini</a>
     </div>
 
-    <p class="terms">
-      Dengan klik daftar, Anda setuju pada
-      <a href="#">Terms of Service</a> dan
-      <a href="#">Privacy Policy</a>.
-    </p>
   </div>
 </ion-content>

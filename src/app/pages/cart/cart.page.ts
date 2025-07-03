@@ -60,6 +60,9 @@ export class CartPage {
   }
 
   goToCheckout() {
-    this.router.navigate(['/checkout']);
+    const selectedItems = this.cart.filter(item => item.selected);
+    this.router.navigate(['/checkout'], {
+      state: { cartItems: selectedItems }
+    });
   }
 }

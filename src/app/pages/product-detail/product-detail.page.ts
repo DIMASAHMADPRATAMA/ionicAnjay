@@ -6,7 +6,8 @@ import { AlertController } from '@ionic/angular';
 @Component({
   standalone: false,
   selector: 'app-product-detail',
-  templateUrl: './product-detail.page.html'
+  templateUrl: './product-detail.page.html',
+  styleUrls: ['./product-detail.page.scss']
 })
 export class ProductDetailPage {
   product: any;
@@ -26,6 +27,8 @@ export class ProductDetailPage {
       });
     });
   }
+  selectedSize: string = 'M'; // default ukuran
+
 
   async addToCart() {
     if (this.product.stock <= 0) {
@@ -65,4 +68,5 @@ export class ProductDetailPage {
       }
     });
   }
+  
 }

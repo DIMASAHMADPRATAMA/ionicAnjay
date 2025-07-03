@@ -1,49 +1,72 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/cart"></ion-back-button>
     </ion-buttons>
-    <ion-title>Checkout</ion-title>
+    <ion-title>
+      <ion-icon name="card-outline" slot="start"></ion-icon>
+      Checkout
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" *ngIf="cartItems.length">
-  <ion-card *ngFor="let item of cartItems">
-    <img [src]="item.product.image_url || 'assets/default.png'" />
-    <ion-card-header>
-      <ion-card-title>{{ item.product.name }}</ion-card-title>
-      <ion-card-subtitle>Rp{{ item.product.price | number }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      Jumlah: {{ item.quantity }}
-    </ion-card-content>
+<ion-content class="checkout-page">
+
+  <!-- 🛍️ Produk yang dibeli -->
+  <ion-card *ngFor="let item of cartItems" class="cart-item">
+    <ion-item lines="none">
+      <ion-avatar slot="start">
+        <img [src]="item.product.image_url || 'assets/default.png'" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ item.product.name }}</h2>
+        <p>Harga: Rp{{ item.product.price | number }}</p>
+        <p>Jumlah: {{ item.quantity }}</p>
+      </ion-label>
+    </ion-item>
   </ion-card>
 
-  <!-- Formulir input checkout -->
-  <ion-item>
-    <ion-label position="stacked">Nama</ion-label>
-    <ion-input [(ngModel)]="name" required></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">No HP</ion-label>
-    <ion-input [(ngModel)]="phone" required></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Alamat</ion-label>
-    <ion-textarea [(ngModel)]="address" required></ion-textarea>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Kode Pos</ion-label>
-    <ion-input [(ngModel)]="postalCode" required></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="stacked">Kurir</ion-label>
-    <ion-select [(ngModel)]="courier" interface="popover">
-      <ion-select-option value="jne">JNE</ion-select-option>
-      <ion-select-option value="jnt">J&T</ion-select-option>
-      <ion-select-option value="sicepat">SiCepat</ion-select-option>
-    </ion-select>
-  </ion-item>
+  <!-- 🧾 Formulir -->
+  <ion-text color="primary"><h3>Informasi Pengiriman</h3></ion-text>
 
-  <ion-button expand="block" color="success" (click)="checkout()">Bayar Sekarang</ion-button>
+  <ion-list>
+    <ion-item>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label position="stacked">Nama Lengkap</ion-label>
+      <ion-input [(ngModel)]="name" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="call-outline" slot="start"></ion-icon>
+      <ion-label position="stacked">No HP</ion-label>
+      <ion-input [(ngModel)]="phone" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <ion-label position="stacked">Alamat Lengkap</ion-label>
+      <ion-textarea [(ngModel)]="address" required></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="mail-unread-outline" slot="start"></ion-icon>
+      <ion-label position="stacked">Kode Pos</ion-label>
+      <ion-input [(ngModel)]="postalCode" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="car-outline" slot="start"></ion-icon>
+      <ion-label position="stacked">Kurir Pengiriman</ion-label>
+      <ion-select [(ngModel)]="courier" interface="popover">
+        <ion-select-option value="jne">JNE</ion-select-option>
+        <ion-select-option value="jnt">J&T</ion-select-option>
+        <ion-select-option value="sicepat">SiCepat</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="success" class="checkout-btn" (click)="checkout()">
+    <ion-icon name="cash-outline" slot="start"></ion-icon>
+    Bayar Sekarang
+  </ion-button>
 </ion-content>

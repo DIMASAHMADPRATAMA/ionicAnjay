@@ -38,11 +38,14 @@ export class CheckoutPage {
       }];
 
       this.total = this.product.price * this.quantity;
+    } else if (nav?.extras?.state?.['cartItems']) {
+      this.cartItems = nav.extras.state['cartItems'];
+      this.total = this.cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
     }
   }
 
   ionViewWillEnter() {
-    if (!this.product) {
+    if (!this.product && this.cartItems.length === 0) {
       this.loadCart();
     }
   }
@@ -50,12 +53,27 @@ export class CheckoutPage {
   async loadCart() {
     const obs = await this.api.getCart();
     obs.subscribe(res => {
-      this.cartItems = res;
+      const grouped: { [productId: number]: any } = {};
+
+      for (const item of res) {
+        const pid = item.product.id;
+        if (!grouped[pid]) {
+          grouped[pid] = {
+            product: item.product,
+            quantity: item.quantity
+          };
+        } else {
+          grouped[pid].quantity += item.quantity;
+        }
+      }
+
+      this.cartItems = Object.values(grouped);
       this.total = this.cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
     });
   }
 
   async checkout() {
+    // 🔒 Validasi input form
     if (!this.name || this.name.length < 3) {
       return this.showToast('Nama wajib diisi', 'danger');
     }
@@ -72,6 +90,7 @@ export class CheckoutPage {
       return this.showToast('Pilih kurir terlebih dahulu', 'danger');
     }
 
+    // Payload umum
     const payload = {
       name: this.name,
       phone: this.phone,
@@ -81,6 +100,7 @@ export class CheckoutPage {
     };
 
     if (this.product) {
+      // ✅ Checkout langsung (dari produk)
       const directPayload = {
         ...payload,
         product_id: this.product.id,
@@ -92,10 +112,27 @@ export class CheckoutPage {
         async err => await this.showToast('Checkout gagal (langsung)', 'danger')
       );
     } else {
-      const obs = await this.api.checkout(payload);
+      // ✅ Checkout dari keranjang
+      const items = this.cartItems.map(item => ({
+        product_id: item.product.id,
+        quantity: item.quantity
+      }));
+
+      const obs = await this.api.checkout({
+        ...payload,
+        items
+      });
+
       obs.subscribe(
         async res => await this.afterSuccess(res.order),
-        async err => await this.showToast('Checkout gagal (keranjang)', 'danger')
+        async err => {
+          console.error('❌ Checkout keranjang error:', err.error);
+          const msg =
+            err.error?.errors?.items?.[0] ||
+            err.error?.message ||
+            'Checkout gagal (keranjang)';
+          await this.showToast(msg, 'danger');
+        }
       );
     }
   }

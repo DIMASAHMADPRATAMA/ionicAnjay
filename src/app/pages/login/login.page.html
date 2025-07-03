@@ -1,40 +1,48 @@
-<ion-content class="auth-page">
-  <div class="form-wrapper">
-    <div class="logo-title">SADAR SHOP</div>
+<ion-content class="ion-padding login-content">
+  <div class="login-card">
 
-    <div class="tab-switch">
-      <button class="tab active">Login</button>
-      <button class="tab" [routerLink]="['/register']">Register</button>
+    <div class="logo-area">
+      <ion-icon name="bag-handle-outline"></ion-icon>
+      <h2>SADAR SHOP</h2>
     </div>
 
-    <form (submit)="login()">
-      <ion-item lines="none" class="input-box">
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input [(ngModel)]="email" name="email" type="email" required></ion-input>
+    <form (submit)="login()" class="login-form">
+
+      <!-- Email -->
+      <ion-item lines="none" class="input-field">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input
+          [(ngModel)]="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          required>
+        </ion-input>
       </ion-item>
 
-      <ion-item lines="none" class="input-box">
-        <ion-label position="stacked">Password</ion-label>
-        <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
+      <!-- Password -->
+      <ion-item lines="none" class="input-field">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input
+          [(ngModel)]="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          required>
+        </ion-input>
       </ion-item>
 
-      <div class="forgot-password">
-        <a href="#">Lupa Password?</a>
-      </div>
-
-      <ion-button expand="block" type="submit" class="login-button">Login</ion-button>
+      <!-- Login Button -->
+      <ion-button expand="block" type="submit" class="login-button">
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+        Login
+      </ion-button>
     </form>
 
-    <div class="divider">
-      <div class="line"></div>
-      <span>or</span>
-      <div class="line"></div>
+    <!-- Register redirect -->
+    <div class="footer-text">
+      Belum punya akun? <a [routerLink]="['/register']">Daftar di sini</a>
     </div>
 
-    <p class="terms">
-      Dengan klik continue, Anda setuju pada
-      <a href="#">Terms of Service</a> dan
-      <a href="#">Privacy Policy</a>.
-    </p>
   </div>
 </ion-content>

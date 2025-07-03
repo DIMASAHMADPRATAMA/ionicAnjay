@@ -3,75 +3,91 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Riwayat Transaksi</ion-title>
+    <ion-title>
+      <ion-icon name="receipt-outline" slot="start"></ion-icon>
+      Riwayat Transaksi
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding riwayat-transaksi-page">
+
   <ion-list *ngIf="orders.length > 0; else kosong">
     <ion-card *ngFor="let order of orders">
       <ion-card-header>
-        <!-- ✅ Kode Order -->
-        <ion-note color="primary">
-          <strong>Kode Order:</strong> {{ order.kode_order }}
+        <ion-note color="medium">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          Kode Order: <strong>{{ order.kode_order }}</strong>
         </ion-note>
 
         <ion-card-title>
-          Pesanan - {{ order.courier }}
+          <ion-icon name="cube-outline"></ion-icon>
+          Kurir: {{ order.courier | uppercase }}
         </ion-card-title>
 
         <ion-note>
-          Tanggal: {{ order.created_at | date:'dd/MM/yyyy' }}
+          <ion-icon name="calendar-outline"></ion-icon>
+          {{ order.created_at | date:'dd MMM yyyy' }}
         </ion-note>
       </ion-card-header>
 
       <ion-card-content>
         <ion-item lines="none">
+          <ion-icon name="person-circle-outline" slot="start"></ion-icon>
           <ion-label>
-            <p><strong>Nama:</strong> {{ order.name }}</p>
-            <p><strong>HP:</strong> {{ order.phone }}</p>
-            <p><strong>Kode Pos:</strong> {{ order.postal_code }}</p>
-            <p><strong>Alamat:</strong> {{ order.address }}</p>
-            <p><strong>Total:</strong> Rp{{ order.total | number }}</p>
-
-           <!-- ✅ Status Pembayaran -->
-<p>
-  <strong>Status Pembayaran:</strong>
-  <ion-badge
-    [color]="order.payment_status === 'paid' ? 'success' : 'warning'">
-    {{ order.payment_status === 'paid' ? 'Sudah Dibayar' : 'Belum Dibayar' }}
-  </ion-badge>
-</p>
-
-<!-- ✅ Status Pengiriman -->
-<p>
-  <strong>Status Pengiriman:</strong>
-  <ion-badge
-    [color]="
-      order.shipping_status === 'shipped'
-        ? 'success'
-        : order.shipping_status === 'processing'
-        ? 'warning'
-        : 'medium'
-    ">
-    {{
-      order.shipping_status === 'shipped'
-        ? 'Sudah Dikirim'
-        : order.shipping_status === 'processing'
-        ? 'Sedang Diproses'
-        : 'Belum Diproses'
-    }}
-  </ion-badge>
-</p>
+            <p><strong>{{ order.name }}</strong></p>
+            <p>{{ order.phone }}</p>
+            <p>{{ order.address }}, {{ order.postal_code }}</p>
           </ion-label>
         </ion-item>
 
-        <ion-item lines="full">
+        <ion-item lines="none">
+          <ion-icon name="cash-outline" slot="start"></ion-icon>
           <ion-label>
-            <strong>Produk:</strong>
-            <ul>
+            <p>Total: <strong>Rp{{ order.total | number }}</strong></p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-icon name="card-outline" slot="start"></ion-icon>
+          <ion-label>
+            Status Pembayaran:
+            <ion-badge [color]="order.payment_status === 'paid' ? 'success' : 'warning'">
+              {{ order.payment_status === 'paid' ? 'Sudah Dibayar' : 'Belum Dibayar' }}
+            </ion-badge>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+          <ion-label>
+            Status Pengiriman:
+            <ion-badge
+              [color]="
+                order.shipping_status === 'shipped'
+                  ? 'success'
+                  : order.shipping_status === 'processing'
+                  ? 'warning'
+                  : 'medium'
+              ">
+              {{
+                order.shipping_status === 'shipped'
+                  ? 'Sudah Dikirim'
+                  : order.shipping_status === 'processing'
+                  ? 'Sedang Diproses'
+                  : 'Belum Diproses'
+              }}
+            </ion-badge>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-icon name="bag-outline" slot="start"></ion-icon>
+          <ion-label>
+            <p><strong>Produk:</strong></p>
+            <ul style="margin: 0; padding-left: 16px;">
               <li *ngFor="let item of order.items">
-                {{ item.quantity }}x {{ item.product.name }} (Rp{{ item.product.price | number }})
+                {{ item.quantity }}x {{ item.product.name }} - Rp{{ item.product.price | number }}
               </li>
             </ul>
           </ion-label>
@@ -81,8 +97,10 @@
   </ion-list>
 
   <ng-template #kosong>
-    <ion-text color="medium">
-      <p class="ion-text-center">Belum ada transaksi.</p>
-    </ion-text>
+    <div class="kosong-container">
+      <ion-icon name="file-tray-outline" style="font-size: 60px;" color="medium"></ion-icon>
+      <p>Tidak ada transaksi ditemukan.</p>
+    </div>
   </ng-template>
+
 </ion-content>

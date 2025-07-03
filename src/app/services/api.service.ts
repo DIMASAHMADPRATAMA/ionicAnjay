@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  apiUrl = 'http://127.0.0.1:8000/api'; // Ganti ke domain produksi saat rilis
+  apiUrl = 'https://www.sadaraza.my.id/api';
 
   constructor(private http: HttpClient, private storage: Storage) {}
 
@@ -19,6 +19,7 @@ export class ApiService {
       'Content-Type': 'application/json'
     });
   }
+  
 
   // ✅ AUTH
   register(data: any): Observable<any> {

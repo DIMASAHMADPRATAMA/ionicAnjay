@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { Storage } from '@ionic/storage-angular';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: false,
@@ -9,21 +11,24 @@ import { ApiService } from 'src/app/services/api.service';
 export class AkunSayaPage {
   user: any = {};
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private storage: Storage,
+    private router: Router
+  ) {}
 
   ionViewWillEnter() {
     this.loadUser();
   }
 
   async loadUser() {
-    const obs = await this.api.getProfile();
-    obs.subscribe(res => {
-      this.user = res;
-    });
+    await this.storage.create();
+    this.user = await this.storage.get('user');
   }
 
-  logout() {
-    localStorage.clear();
-    location.href = '/login';
+  async logout() {
+    await this.storage.create();
+    await this.storage.clear(); // hapus token & user
+    this.router.navigateByUrl('/login', { replaceUrl: true });
   }
 }

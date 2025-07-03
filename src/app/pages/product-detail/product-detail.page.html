@@ -28,15 +28,14 @@
   </ion-card>
 
   <!-- 🔘 Tombol Aksi -->
-  <div class="ion-margin-top">
-    <ion-button expand="block" color="primary" shape="round" size="large" (click)="addToCart()">
-      <ion-icon slot="start" name="cart-outline"></ion-icon>
+  <div class="action-buttons ion-margin-top">
+    <ion-button expand="block" class="keranjang-button" (click)="addToCart()" [disabled]="product.stock === 0">
       Tambah ke Keranjang
     </ion-button>
 
-    <ion-button expand="block" color="success" shape="round" size="large" (click)="goToCheckout()">
-      <ion-icon slot="start" name="cash-outline"></ion-icon>
+    <ion-button expand="block" class="checkout-button" (click)="goToCheckout()" [disabled]="product.stock === 0">
       Checkout Sekarang
     </ion-button>
   </div>
+
 </ion-content>

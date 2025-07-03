@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>SADAR SHOP</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/akun-saya">
@@ -15,17 +15,17 @@
 
 <ion-content class="ion-padding">
   <!-- Banner -->
-  <img src="assets/shapes.svg" style="width: 100%; border-radius: 10px; margin: 10px 0;" />
+  <img src="assets/JDM12.jpg" class="banner" />
 
   <!-- Kategori -->
-  <ion-chip (click)="filterByCategory('all')">
-    All
-  </ion-chip>
-  <ion-chip *ngFor="let cat of categories" (click)="filterByCategory(cat.name)">
-    {{ cat.name }}
-  </ion-chip>
+  <div class="kategori">
+    <ion-chip (click)="filterByCategory('all')">All</ion-chip>
+    <ion-chip *ngFor="let cat of categories" (click)="filterByCategory(cat.name)">
+      {{ cat.name }}
+    </ion-chip>
+  </div>
 
-  <!-- ✅ Rekomendasi Produk -->
+  <!-- Rekomendasi Produk -->
   <ion-text color="primary">
     <h2>Rekomendasi Produk</h2>
   </ion-text>
@@ -35,13 +35,16 @@
       <ion-col size="6" *ngFor="let p of filteredProducts">
         <ion-card>
           <div class="product-image-wrapper" (click)="goToDetail(p)">
-            <img [src]="p.image_url || 'assets/default.png'" />
-            <div class="stok-habis" *ngIf="p.stock === 0">Produk Habis</div>
+            <img [src]="p.image_url || 'assets/default.png'" [ngClass]="{ 'habis-gambar': p.stock === 0 }" />
+            <div class="stok-habis" *ngIf="p.stock === 0">
+              Produk Habis 🚫
+            </div>
             <ion-card-content>
               <h2>{{ p.name }}</h2>
               <p>Rp{{ p.price | number }}</p>
             </ion-card-content>
           </div>
+
           <ion-button expand="block" size="small" (click)="addToCart(p, $event)" [disabled]="p.stock === 0">
             <ion-icon name="cart-outline" slot="start"></ion-icon>
             Tambah
@@ -55,31 +58,24 @@
 <ion-footer>
   <ion-toolbar>
     <ion-grid>
-      <ion-row class="ion-justify-content-around ion-align-items-center">
-        <!-- Home -->
+      <ion-row class="ion-justify-content-around">
         <ion-col size="4" class="ion-text-center">
           <ion-button fill="clear" routerLink="/home">
-            <ion-icon name="home-outline" slot="icon-only"></ion-icon>
-            <ion-label style="display: block; font-size: 12px;">Home</ion-label>
+            <ion-icon name="home" slot="icon-only"></ion-icon>
+            <ion-label>Home</ion-label>
           </ion-button>
         </ion-col>
-
-        <!-- Keranjang -->
         <ion-col size="4" class="ion-text-center">
           <ion-button fill="clear" routerLink="/cart">
-            <ion-icon name="cart-outline" slot="icon-only"></ion-icon>
-            <ion-label style="display: block; font-size: 12px;">Keranjang</ion-label>
+            <ion-icon name="cart" slot="icon-only"></ion-icon>
+            <ion-label>Keranjang</ion-label>
           </ion-button>
         </ion-col>
-
-        <!-- Pesan dengan Badge Angka -->
         <ion-col size="4" class="ion-text-center" style="position: relative;">
           <ion-button fill="clear" routerLink="/pesan">
-            <ion-icon name="chatbubble-ellipses-outline" slot="icon-only"></ion-icon>
-            <ion-label style="display: block; font-size: 12px;">Pesan</ion-label>
-            <ion-badge *ngIf="newMessageCount > 0"
-              color="danger"
-              style="position: absolute; top: 2px; right: 28%; font-size: 10px; padding: 2px 6px;">
+            <ion-icon name="chatbubbles" slot="icon-only"></ion-icon>
+            <ion-label>Pesan</ion-label>
+            <ion-badge *ngIf="newMessageCount > 0" color="danger" class="badge-msg">
               {{ newMessageCount }}
             </ion-badge>
           </ion-button>
@@ -88,3 +84,4 @@
     </ion-grid>
   </ion-toolbar>
 </ion-footer>
+  

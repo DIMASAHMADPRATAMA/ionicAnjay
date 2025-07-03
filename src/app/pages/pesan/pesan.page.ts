@@ -1,4 +1,9 @@
-import { Component, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Storage } from '@ionic/storage-angular';
 
@@ -27,9 +32,8 @@ export class PesanPage implements OnDestroy {
       this.userId = user.id;
       this.loadMessages();
 
-      // 🔁 Mulai polling setiap 5 detik
       this.pollingInterval = setInterval(() => {
-        this.loadMessages(false); // `false` agar tidak scroll setiap kali polling
+        this.loadMessages(false);
       }, 5000);
     } else {
       alert('Gagal mendapatkan ID pengguna.');
@@ -37,7 +41,6 @@ export class PesanPage implements OnDestroy {
   }
 
   ionViewWillLeave() {
-    // ❌ Stop polling saat keluar dari halaman
     clearInterval(this.pollingInterval);
   }
 
@@ -46,17 +49,16 @@ export class PesanPage implements OnDestroy {
   }
 
   loadMessages(scroll: boolean = true) {
-    this.api.getMessages(this.adminId).then(obs => {
-      obs.subscribe(res => {
+    this.api.getMessages(this.adminId).then((obs) => {
+      obs.subscribe((res) => {
         const previousLength = this.messages.length;
         this.messages = res;
 
-        // Scroll hanya jika jumlah pesan berubah atau scroll = true
         if (scroll || previousLength !== this.messages.length) {
           setTimeout(() => this.scrollToBottom(), 100);
         }
 
-        this.api.markMessagesAsRead(this.adminId).then(obs => {
+        this.api.markMessagesAsRead(this.adminId).then((obs) => {
           obs.subscribe();
         });
       });
@@ -68,10 +70,10 @@ export class PesanPage implements OnDestroy {
 
     const data = {
       receiver_id: this.adminId,
-      message: this.message
+      message: this.message,
     };
 
-    this.api.sendMessage(data).then(obs => {
+    this.api.sendMessage(data).then((obs) => {
       obs.subscribe(() => {
         this.message = '';
         this.loadMessages();
@@ -82,6 +84,13 @@ export class PesanPage implements OnDestroy {
   scrollToBottom() {
     if (this.scrollBottom) {
       this.scrollBottom.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
     }
   }
 }

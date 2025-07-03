@@ -1,0 +1,82 @@
+ion-content {
+  background-color: #f9fafb;
+  font-family: 'Poppins', sans-serif;
+}
+
+.product-image-wrapper {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 18px;
+
+  img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.product-info-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(56, 128, 255, 0.1);
+
+  ion-card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  ion-card-subtitle {
+    font-size: 1rem;
+    color: #475569;
+    margin-top: 6px;
+  }
+
+  .product-price {
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .product-description {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+
+  ion-button {
+    --border-radius: 14px;
+    --box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+    font-size: 15px;
+    height: 50px;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+  }
+
+  .keranjang-button {
+    --background: linear-gradient(to right, #3b82f6, #2563eb);
+    --color: #ffffff;
+  }
+
+  .checkout-button {
+    --background: linear-gradient(to right, #10b981, #059669);
+    --color: #ffffff;
+  }
+
+  ion-button[disabled] {
+    opacity: 0.6;
+    --background: #cbd5e1;
+    --color: #ffffff;
+    pointer-events: none;
+  }
+}

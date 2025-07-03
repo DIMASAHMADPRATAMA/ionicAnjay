@@ -1,0 +1,43 @@
+.payment-page {
+  background-color: #f4f4f4;
+
+  ion-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+  }
+
+  .summary-card {
+    ion-card-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    ion-item {
+      --background: transparent;
+      font-size: 15px;
+      ion-note {
+        font-size: 15px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .payment-method-card {
+    ion-label {
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    ion-radio {
+      color: #3880ff;
+    }
+  }
+
+  .bayar-button {
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+}

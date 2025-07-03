@@ -1,20 +1,18 @@
-/* orderan.page.scss */
-
 ion-content {
   background-color: #f9fafc;
   font-family: 'Poppins', sans-serif;
 }
 
+/* ===== Segmen Navigasi ===== */
 ion-toolbar ion-segment {
   display: flex;
   justify-content: center;
-  margin: 0 auto;
-  padding: 8px;
   background-color: transparent;
+  padding: 8px;
 
   ion-segment-button {
-    margin: 0 12px; // Memberi jarak kanan dan kiri
-    padding: 8px 16px;
+    margin: 0 10px;
+    padding: 6px 16px;
     border-radius: 8px;
     font-weight: 600;
     text-transform: capitalize;
@@ -31,18 +29,13 @@ ion-toolbar ion-segment {
   }
 }
 
-
-/* Card styling */
+/* ===== Kartu Orderan ===== */
 ion-card {
   border-radius: 16px;
-  box-shadow: 0 8px 15px rgba(56, 128, 255, 0.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
   margin-bottom: 18px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 25px rgba(56, 128, 255, 0.25);
-  }
+  animation: fadeInUp 0.3s ease;
 }
 
 ion-card-header {
@@ -53,17 +46,19 @@ ion-card-header {
 
   ion-card-title {
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   ion-note {
     font-style: italic;
-    font-size: 0.9rem;
-    opacity: 0.85;
+    font-size: 0.85rem;
+    opacity: 0.9;
   }
 }
 
 ion-card-content {
+  padding-top: 10px;
+
   p {
     margin: 6px 0;
     font-size: 1rem;
@@ -81,38 +76,27 @@ ion-card-content {
       font-size: 0.95rem;
     }
   }
+
+  ion-badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
 }
 
-/* Status labels */
-.status-pending {
-  color: #eab308; /* Amber */
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.status-success {
-  color: #16a34a; /* Green */
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.status-canceled {
-  color: #dc2626; /* Red */
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-/* Tracking list styling */
+/* ===== Tracking List ===== */
 ion-item {
   border-radius: 12px;
   margin-bottom: 12px;
   background-color: #ffffff;
-  box-shadow: 0 6px 12px rgba(56, 128, 255, 0.08);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
   --ion-item-background: transparent;
   transition: box-shadow 0.3s ease;
 
   &:hover {
-    box-shadow: 0 12px 24px rgba(56, 128, 255, 0.2);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
   }
 
   ion-label {
@@ -134,16 +118,32 @@ ion-item {
   }
 }
 
-/* Empty state */
+/* ===== Status Custom Class (optional manual use) ===== */
+.status-pending {
+  color: #eab308;
+  font-weight: 700;
+}
+
+.status-success {
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.status-canceled {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* ===== Kosong State ===== */
 ion-text p {
   font-size: 1.1rem;
   font-weight: 600;
   margin-top: 40px;
-  color: #000000;
+  color: #64748b;
   text-align: center;
 }
 
-/* Scrollbar styling for better UX */
+/* ===== Scrollbar UX (desktop) ===== */
 ion-content::-webkit-scrollbar {
   width: 6px;
 }
@@ -151,4 +151,16 @@ ion-content::-webkit-scrollbar {
 ion-content::-webkit-scrollbar-thumb {
   background-color: #3b82f6;
   border-radius: 10px;
+}
+
+/* ===== Animasi Muncul ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

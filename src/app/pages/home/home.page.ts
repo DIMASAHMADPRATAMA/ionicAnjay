@@ -84,7 +84,8 @@ export class HomePage {
   }
 
   addToCart(product: any, event: Event) {
-    event.stopPropagation();
+    event.stopPropagation(); // ⬅ Kunci agar tidak double tambah
+
     this.api.addToCart({ product_id: product.id, quantity: 1 }).then(obs => {
       obs.subscribe(
         () => alert('Produk ditambahkan ke keranjang!'),
@@ -107,6 +108,6 @@ export class HomePage {
           });
         });
       });
-    });
-  }
+    });
+  }
 }
